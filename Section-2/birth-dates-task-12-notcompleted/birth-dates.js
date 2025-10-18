@@ -2,11 +2,15 @@ function birthDates(birthDates)
 {
     for(let dates of birthDates)
     {
-        // let cflg = 1
-        // while(cflg)
-        // {
-
-        // }
+        let cflg = 1
+        let prmonth = dates.getMonth()
+        while(cflg)
+        {
+            if(dates.getMonth()!=prmonth)
+            {
+                prmonth = dates.getMonth()
+            }
+        }
         console.log('date',dates.getDate())
         console.log('day',dates.getDay())
     }
