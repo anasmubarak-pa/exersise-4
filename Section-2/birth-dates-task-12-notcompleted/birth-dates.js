@@ -7,10 +7,10 @@ function birthDates(birthDates)
         let datecopy = structuredClone(dates)
         datecopy.setMonth(0)
         datecopy.setDate(1)
-        console.log(datecopy,' and ',dates,' diffrence')
+        // console.log(datecopy,' and ',dates,' diffrence')
         // console.log('time',(dates.getTime()-datecopy.getTime())/(3600*1000*24*7))
         let week = (dates.getTime()-datecopy.getTime())/(3600*1000*24*7)-((dates.getTime()-datecopy.getTime())/(3600*1000*24*7)%1)+1
-        console.log(week)
+        // console.log(week)
         if(birthday[week])
         {
             birthday[week]++
