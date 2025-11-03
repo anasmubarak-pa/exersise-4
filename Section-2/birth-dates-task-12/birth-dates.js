@@ -1,30 +1,37 @@
-function matrixTranspose(matrix)
+function birthDates(birthDates)
 {
-    if(!(typeAsserter(matrix,'Array')&&Array.isArray(matrix[1])))
+    if(!typeAsserter(birthDates,'Array'))
     {
         return 'Invalid argument'
     }
-    let rtmatrix=[]
-    for(let column=0;column<matrix[1].length;column++)
+    let birthday={}
+    let returnlist = []
+    for(let dates of birthDates)
     {
-        let tmatrix=[]
-        for(let row=0;row<matrix.length;row++)
+        if(!(dates instanceof Date))
         {
-            if(!(typeof matrix[row][column]=='number'))
-            {
-                return 'Invalid argument'
-            }
-            // console.log(matrix[row][column])
-            tmatrix.push(matrix[row][column])
+            return 'Invalid argument'
         }
-        rtmatrix.push(tmatrix)
+        let datecopy = structuredClone(dates)
+        datecopy.setMonth(0)
+        datecopy.setDate(1)
+        // console.log(datecopy.getTime(),dates.getTime())
+        // console.log(datecopy,' and ',dates,' diffrence')
+        // console.log('time',(dates.getTime()-datecopy.getTime())/(3600*1000*24*7))
+        // console.log(dates,(((dates.getTime()-datecopy.getTime())/(3600*1000*24)+datecopy.getDay())/7)+1-((((dates.getTime()-datecopy.getTime())/(3600*1000*24)+datecopy.getDay())/7)%1))
+        let week = (((dates.getTime()-datecopy.getTime())/(3600*1000*24)+datecopy.getDay())/7)+1-((((dates.getTime()-datecopy.getTime())/(3600*1000*24)+datecopy.getDay())/7)%1)
+        // console.log(week)
+        birthday[week]?birthday[week]++:birthday[week]=1
     }
-    return rtmatrix
+    // console.log(birthday)
+    for(let birthweek in birthday)
+    {
+        returnlist.push({'week number':birthweek,'birth days':birthday[birthweek]})
+    }
+    return returnlist
 }
 
-// console.log(matrixTranspose([ [2, 9, 0], 
-//          [7, 1, 5] ]))
-         
+// console.log(birthDates([new Date(2025, 0, 4), new Date(2025, 2, 8), new Date(2025, 5, 23)]))
 function typeAsserter(...typelist)
 {
     let i =0
@@ -142,22 +149,30 @@ function testProgram(callback,inputArray,expectedOutputArray)
   }
 }
 
-let input1 = [[[2,9,0],[7,1,5]]]
-let ouput1 = [[2,7],[9,1],[0,5]]
-let input2 = [[[2,9,0],[7,1,5],[1,2,3]]]
-let ouput2 = [[2,7,1],[9,1,2],[0,5,3]]
+// console.log(squareMatrix(5))
+// console.log(squareMatrix(6))
+// console.log(squareMatrix(7))
+// console.log(squareMatrix(8))
+let input1 = [[new Date(2025, 0, 4), new Date(2025, 2, 8), new Date(2025, 5, 23)]]
+let ouput1 = [{'week number':1,'birth days':1},
+                {'week number':10,'birth days':1},
+                {'week number':26,'birth days':1}]
+let input2 = [[new Date(2025, 5, 4), new Date(2025, 8, 8), new Date(2025, 8, 11)]]
+let ouput2 =  [{'week number':23,'birth days':1},
+                {'week number':37,'birth days':2}]
 let input3 = [[1, [2, [3, [4]], 5]]]
 let ouput3 = 'Invalid argument'
-let input4 = [[[1,2,3,4],[5,6,7,8]]]
-let ouput4 = [[1,5],[2,6],[3,7],[4,8]]
-let input5 = [[[1,2,3,4,5],[1,2,3,4,5]]]
-let ouput5 = [[1,1],[2,2],[3,3],[4,4],[5,5]]
-let input6 = [[[1,1,1,1,1],[2,2,2,2,2]]]
-let ouput6 = [[1,2],[1,2],[1,2],[1,2],[1,2]]
-let input7 = [[[1,5],[1,5]]]
-let ouput7 = [[1,1],[5,5]]
-let input8 = [[[1],[],[]]]
-let ouput8 = []
+let input4 = [[new Date(2025, 3, 4), new Date(2025, 3, 1), new Date(2025, 3, 2),new Date(2025, 3, 3)]]
+let ouput4 = [{'week number':14,'birth days':4}]
+let input5 = [[new Date(2025, 3, 4)]]
+let ouput5 = [{'week number':14,'birth days':1}]
+let input6 = [[new Date(2025, 0, 1),new Date(2025, 0, 2)]]
+let ouput6 = [{'week number':1,'birth days':2}]
+let input7 = [[new Date(2025, 0, 1),new Date(2025, 0, 2),new Date(2025, 0, 3),new Date(2025, 0, 4)]]
+let ouput7 = [{'week number':1,'birth days':4}]
+let input8 = [[new Date(2025, 0, 1),new Date(2025, 0, 2),new Date(2025, 0, 3),new Date(2025, 0, 4),new Date(2025, 0, 5)]]
+let ouput8 = [{'week number':1,'birth days':4},
+                {'week number':2,'birth days':1}]
 let input9 = ['2']
 let ouput9 = 'Invalid argument'
 let input10 = [{obj:{1:2}}]
@@ -165,15 +180,15 @@ let ouput10 = 'Invalid argument'
 let input11 = [0]
 let ouput11 = 'Invalid argument'
 let input12 = [[]]
-let ouput12 = 'Invalid argument'
+let ouput12 = []
 let input13 = []
 let ouput13 = 'Invalid argument'
 let input14 = [8]
 let ouput14 = 'Invalid argument'
 let input15 = [[[],[]]]
-let ouput15 = []
+let ouput15 = 'Invalid argument'
 
-testProgram(matrixTranspose,[input1,input2,input3,input4,input5,input6,input7,input8,input9,input10,
+testProgram(birthDates,[input1,input2,input3,input4,input5,input6,input7,input8,input9,input10,
                     input11,input12,input13,input14,input15],
                     [ouput1,ouput2,ouput3,ouput4,ouput5,ouput6,ouput7,ouput8,ouput9,ouput10,
                     ouput11,ouput12,ouput13,ouput14,ouput15])
